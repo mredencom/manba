@@ -10,7 +10,7 @@ import (
 var (
 	renderPool       sync.Pool
 	contextPool      sync.Pool
-	dispatchNodePool  sync.Pool
+	dispatchNodePool sync.Pool
 	multiContextPool sync.Pool
 	wgPool           sync.Pool
 	exprCtxPool      sync.Pool
@@ -52,7 +52,7 @@ func releaseMultiContext(value *multiContext) {
 	}
 }
 
-func acquireDispathNode() *dispatchNode {
+func acquireDispatchNode() *dispatchNode {
 	v := dispatchNodePool.Get()
 	if v == nil {
 		return &dispatchNode{}
@@ -61,7 +61,7 @@ func acquireDispathNode() *dispatchNode {
 	return v.(*dispatchNode)
 }
 
-func releaseDispathNode(value *dispatchNode) {
+func releaseDispatchNode(value *dispatchNode) {
 	if value != nil {
 		value.reset()
 		dispatchNodePool.Put(value)
