@@ -30,8 +30,8 @@ const (
 	FilterAnalysis = "ANALYSIS"
 	// FilterRateLimiting limit filter
 	FilterRateLimiting = "RATE-LIMITING"
-	// FilterCircuitBreake circuit breake filter
-	FilterCircuitBreake = "CIRCUIT-BREAKER"
+	// FilterCircuitBreaker circuit breaker filter
+	FilterCircuitBreaker = "CIRCUIT-BREAKER"
 	// FilterValidation validation request filter
 	FilterValidation = "VALIDATION"
 	// FilterCaching caching filter
@@ -68,7 +68,7 @@ func (p *Proxy) newFilter(filterSpec *FilterSpec) (filter.Filter, error) {
 		return newWhiteListFilter(), nil
 	case FilterRateLimiting:
 		return newRateLimitingFilter(), nil
-	case FilterCircuitBreake:
+	case FilterCircuitBreaker:
 		return newCircuitBreakeFilter(), nil
 	case FilterValidation:
 		return newValidationFilter(), nil

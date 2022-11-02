@@ -10,15 +10,15 @@ import (
 var (
 	renderPool       sync.Pool
 	contextPool      sync.Pool
-	dispatchNodePool  sync.Pool
+	dispatchNodePool sync.Pool
 	multiContextPool sync.Pool
 	wgPool           sync.Pool
 	exprCtxPool      sync.Pool
 	bytesPool        = goetty.NewSyncPool(2, 1024*1024*5, 2)
 
-	emptyRender      = render{}
-	emptyContext     = proxyContext{}
-	emptyDispathNode = dispatchNode{}
+	emptyRender       = render{}
+	emptyContext      = proxyContext{}
+	emptyDispatchNode = dispatchNode{}
 )
 
 func acquireWG() *sync.WaitGroup {

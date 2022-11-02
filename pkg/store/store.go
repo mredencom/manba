@@ -74,7 +74,7 @@ func init() {
 	supportSchema["etcd"] = getEtcdStoreFrom
 }
 
-// GetStoreFrom returns a store implemention, if not support returns error
+// GetStoreFrom returns a store implementation, if not support returns error
 func GetStoreFrom(registryAddr, prefix string, userName string, password string) (Store, error) {
 	u, err := url.Parse(registryAddr)
 	if err != nil {

@@ -116,7 +116,7 @@ func newJWTFilter(file string) (filter.Filter, error) {
 	return f, nil
 }
 
-// Name name
+// Name Filter name
 func (f *JWTFilter) Name() string {
 	return FilterJWT
 }

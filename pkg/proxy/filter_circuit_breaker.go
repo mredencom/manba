@@ -33,7 +33,7 @@ func (f *CircuitBreakeFilter) Init(cfg string) error {
 
 // Name return name of this filter
 func (f *CircuitBreakeFilter) Name() string {
-	return FilterCircuitBreake
+	return FilterCircuitBreaker
 }
 
 // Pre execute before proxy

@@ -85,7 +85,7 @@ func (dn *dispatchNode) setHost(forwardReq *fasthttp.Request) {
 }
 
 func (dn *dispatchNode) reset() {
-	*dn = emptyDispathNode
+	*dn = emptyDispatchNode
 }
 
 func (dn *dispatchNode) hasRetryStrategy() bool {
