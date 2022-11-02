@@ -199,7 +199,7 @@ type dispatcher struct {
 	checkerC       chan uint64
 	watchStopC     chan bool
 	watchEventC    chan *store.Evt
-	analysiser     *util.Analysis
+	analysis       *util.Analysis
 	store          store.Store
 	httpClient     *util.FastHTTPClient
 	tw             *goetty.TimeoutWheel
@@ -213,7 +213,7 @@ func newDispatcher(cnf *Cfg, db store.Store, runner *task.Runner, jsEngineFunc f
 		tw:           tw,
 		store:        db,
 		runner:       runner,
-		analysiser:   util.NewAnalysis(tw),
+		analysis:     util.NewAnalysis(tw),
 		httpClient:   util.NewFastHTTPClient(),
 		clusters:     make(map[uint64]*clusterRuntime),
 		servers:      make(map[uint64]*serverRuntime),

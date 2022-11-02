@@ -395,10 +395,10 @@ func (r *dispatcher) removeServer(id uint64) error {
 }
 
 func (r *dispatcher) addAnalysis(id uint64, cb *metapb.CircuitBreaker) {
-	r.analysiser.RemoveTarget(id)
-	r.analysiser.AddTarget(id, time.Second)
+	r.analysis.RemoveTarget(id)
+	r.analysis.AddTarget(id, time.Second)
 	if cb != nil {
-		r.analysiser.AddTarget(id, time.Duration(cb.RateCheckPeriod))
+		r.analysis.AddTarget(id, time.Duration(cb.RateCheckPeriod))
 	}
 }
 

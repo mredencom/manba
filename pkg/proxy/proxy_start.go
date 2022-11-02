@@ -11,7 +11,7 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
-// Start start proxy
+// Start proxy
 func (p *Proxy) Start() {
 	go p.listenToStop()
 
