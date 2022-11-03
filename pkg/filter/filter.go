@@ -1,6 +1,8 @@
 package filter
 
 import (
+	"github.com/fagongzi/log"
+	"net/http"
 	"time"
 
 	"github.com/fagongzi/gateway/pkg/pb/metapb"
@@ -36,25 +38,28 @@ type Filter interface {
 	PostErr(c Context, code int, err error)
 }
 
-// BaseFilter base filter support default implemention
+// BaseFilter base filter support default implementation
 type BaseFilter struct{}
 
 // Init init filter
 func (f BaseFilter) Init(cfg string) error {
+	log.Infof("execute baseFilter Init function %s", cfg)
 	return nil
 }
 
 // Pre execute before proxy
 func (f BaseFilter) Pre(c Context) (statusCode int, err error) {
-	return fasthttp.StatusOK, nil
+	log.Info("execute baseFilter Pre function")
+	return http.StatusOK, nil
 }
 
 // Post execute after proxy
 func (f BaseFilter) Post(c Context) (statusCode int, err error) {
-	return fasthttp.StatusOK, nil
+	log.Info("execute baseFilter Post function")
+	return http.StatusOK, nil
 }
 
 // PostErr execute proxy has errors
 func (f BaseFilter) PostErr(c Context, code int, err error) {
-
+	log.Infof("execute baseFilter PostErr function,code: %d error: %v", code, err)
 }

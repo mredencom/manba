@@ -85,7 +85,7 @@ func (dn *dispatchNode) setHost(forwardReq *fasthttp.Request) {
 }
 
 func (dn *dispatchNode) reset() {
-	*dn = emptyDispathNode
+	*dn = emptyDispatchNode
 }
 
 func (dn *dispatchNode) hasRetryStrategy() bool {
@@ -199,7 +199,7 @@ type dispatcher struct {
 	checkerC       chan uint64
 	watchStopC     chan bool
 	watchEventC    chan *store.Evt
-	analysiser     *util.Analysis
+	analysis       *util.Analysis
 	store          store.Store
 	httpClient     *util.FastHTTPClient
 	tw             *goetty.TimeoutWheel
@@ -207,13 +207,14 @@ type dispatcher struct {
 }
 
 func newDispatcher(cnf *Cfg, db store.Store, runner *task.Runner, jsEngineFunc func(*plugin.Engine)) *dispatcher {
+
 	tw := goetty.NewTimeoutWheel(goetty.WithTickInterval(time.Second))
 	rt := &dispatcher{
 		cnf:          cnf,
 		tw:           tw,
 		store:        db,
 		runner:       runner,
-		analysiser:   util.NewAnalysis(tw),
+		analysis:     util.NewAnalysis(tw),
 		httpClient:   util.NewFastHTTPClient(),
 		clusters:     make(map[uint64]*clusterRuntime),
 		servers:      make(map[uint64]*serverRuntime),

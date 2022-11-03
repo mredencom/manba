@@ -123,7 +123,7 @@ func (e *EtcdStore) AddBind(bind *metapb.Bind) error {
 	return e.put(e.getBindKey(bind), string(data))
 }
 
-// Batch batch update
+// Batch update
 func (e *EtcdStore) Batch(batch *rpcpb.BatchReq) (*rpcpb.BatchRsp, error) {
 	e.Lock()
 	defer e.Unlock()

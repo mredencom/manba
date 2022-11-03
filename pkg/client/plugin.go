@@ -64,7 +64,7 @@ func (sb *PluginBuilder) Commit() (uint64, error) {
 	return sb.c.putPlugin(sb.value)
 }
 
-// Build build
+// Build  a plugin
 func (sb *PluginBuilder) Build() (*rpcpb.PutPluginReq, error) {
 	err := pb.ValidatePlugin(&sb.value)
 	if err != nil {

@@ -14,14 +14,16 @@ var (
 )
 
 const (
+	// FilterBase base filter
+	FilterBase = "Base"
 	// FilterPrepare prepare filter
 	FilterPrepare = "PREPARE"
 	// FilterHTTPAccess access log filter
 	FilterHTTPAccess = "HTTP-ACCESS"
 	// FilterHeader header filter
-	FilterHeader = "HEADER" // process header fiter
-	// FilterXForward xforward fiter
-	FilterXForward = "XFORWARD"
+	FilterHeader = "HEADER" // process header filter
+	// FilterXForward x-forward filter
+	FilterXForward = "X-FORWARD"
 	// FilterBlackList blacklist filter
 	FilterBlackList = "BLACKLIST"
 	// FilterWhiteList whitelist filter
@@ -30,8 +32,8 @@ const (
 	FilterAnalysis = "ANALYSIS"
 	// FilterRateLimiting limit filter
 	FilterRateLimiting = "RATE-LIMITING"
-	// FilterCircuitBreake circuit breake filter
-	FilterCircuitBreake = "CIRCUIT-BREAKER"
+	// FilterCircuitBreaker circuit breaker filter
+	FilterCircuitBreaker = "CIRCUIT-BREAKER"
 	// FilterValidation validation request filter
 	FilterValidation = "VALIDATION"
 	// FilterCaching caching filter
@@ -68,7 +70,7 @@ func (p *Proxy) newFilter(filterSpec *FilterSpec) (filter.Filter, error) {
 		return newWhiteListFilter(), nil
 	case FilterRateLimiting:
 		return newRateLimitingFilter(), nil
-	case FilterCircuitBreake:
+	case FilterCircuitBreaker:
 		return newCircuitBreakeFilter(), nil
 	case FilterValidation:
 		return newValidationFilter(), nil

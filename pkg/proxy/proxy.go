@@ -132,7 +132,7 @@ func (p *Proxy) initDispatcher() error {
 }
 
 func (p *Proxy) initFilters() {
-	for _, filter := range p.cfg.Filers {
+	for _, filter := range p.cfg.Filters {
 		f, err := p.newFilter(filter)
 		if nil != err {
 			log.Fatalf("create filter failed, filter=<%+v> errors:\n%+v",
@@ -324,8 +324,7 @@ func (p *Proxy) ServeFastHTTP(ctx *fasthttp.RequestCtx) {
 	p.postRequest(api, dispatches, startAt)
 	releaseExprCtx(exprCtx)
 
-	log.Debugf("%s: dispatch complete",
-		requestTag)
+	log.Debugf("%s: dispatch complete", requestTag)
 }
 
 func (p *Proxy) doCopy(req *copyReq) {
@@ -390,7 +389,7 @@ func (p *Proxy) doProxy(dn *dispatchNode, adjustH func(*proxyContext)) {
 
 	// change url
 	if dn.needRewrite() {
-		// if not use rewrite, it only change uri path and query string
+		// if not use rewrite, it only changes uri path and query string
 		realPath := expr.Exec(dn.exprCtx, dn.node.parsedExprs...)
 		if len(realPath) != 0 {
 			log.Infof("%s: dispatch node %d rewrite url to %s",
@@ -413,6 +412,7 @@ func (p *Proxy) doProxy(dn *dispatchNode, adjustH func(*proxyContext)) {
 
 	c := acquireContext()
 	c.init(p.dispatcher, ctx, forwardReq, dn)
+
 	if adjustH != nil {
 		adjustH(c)
 	}
@@ -421,7 +421,7 @@ func (p *Proxy) doProxy(dn *dispatchNode, adjustH func(*proxyContext)) {
 
 	// pre filters
 	filterName, code, err := p.doPreFilters(dn.requestTag, c, filters...)
-	if nil != err {
+	if err != nil {
 		dn.err = err
 		dn.code = code
 		dn.maybeDone()
@@ -437,7 +437,7 @@ func (p *Proxy) doProxy(dn *dispatchNode, adjustH func(*proxyContext)) {
 
 	var res *fasthttp.Response
 
-	if value := c.GetAttr(filter.AttrUsingCachingValue); nil != value { // hit cache
+	if value := c.GetAttr(filter.AttrUsingCachingValue); value != nil { // hit cache
 		res = fasthttp.AcquireResponse()
 		filter.ReadCachedValueTo(value.(*goetty.ByteBuf), res)
 		log.Infof("%s: dispatch node %d using cache",
@@ -496,7 +496,7 @@ func (p *Proxy) doProxy(dn *dispatchNode, adjustH func(*proxyContext)) {
 				break
 			}
 
-			// retry with strategiess
+			// retry with strategies
 			retry := dn.retryStrategy()
 			if times >= retry.MaxTimes {
 				log.Infof("%s: dispatch node %d sent times over the max %d",
@@ -564,7 +564,7 @@ func (p *Proxy) doProxy(dn *dispatchNode, adjustH func(*proxyContext)) {
 
 	// post filters
 	filterName, code, err = p.doPostFilters(dn.requestTag, c, filters...)
-	if nil != err {
+	if err != nil {
 		log.Errorf("%s: dispatch node %d call filter %s post failed with error %s",
 			dn.requestTag,
 			dn.idx,

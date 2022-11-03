@@ -20,7 +20,7 @@ func (c *client) NewClusterBuilder() *ClusterBuilder {
 	}
 }
 
-// Use use a cluster
+// Use a cluster
 func (cb *ClusterBuilder) Use(value metapb.Cluster) *ClusterBuilder {
 	cb.value = value
 	return cb
@@ -32,8 +32,8 @@ func (cb *ClusterBuilder) Name(name string) *ClusterBuilder {
 	return cb
 }
 
-// Loadbalance set a loadbalance
-func (cb *ClusterBuilder) Loadbalance(lb metapb.LoadBalance) *ClusterBuilder {
+// LoadBalance set a balance
+func (cb *ClusterBuilder) LoadBalance(lb metapb.LoadBalance) *ClusterBuilder {
 	cb.value.LoadBalance = lb
 	return cb
 }
@@ -48,7 +48,7 @@ func (cb *ClusterBuilder) Commit() (uint64, error) {
 	return cb.c.putCluster(cb.value)
 }
 
-// Build build
+// Build a cluster
 func (cb *ClusterBuilder) Build() (*rpcpb.PutClusterReq, error) {
 	err := pb.ValidateCluster(&cb.value)
 	if err != nil {

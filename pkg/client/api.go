@@ -14,7 +14,7 @@ type APIBuilder struct {
 	value metapb.API
 }
 
-// NewAPIBuilder return a api build
+// NewAPIBuilder return api build
 func (c *client) NewAPIBuilder() *APIBuilder {
 	return &APIBuilder{
 		c:     c,
@@ -22,7 +22,7 @@ func (c *client) NewAPIBuilder() *APIBuilder {
 	}
 }
 
-// Use use a cluster
+// Use a cluster
 func (ab *APIBuilder) Use(value metapb.API) *APIBuilder {
 	ab.value = value
 	return ab
@@ -34,7 +34,7 @@ func (ab *APIBuilder) Name(name string) *APIBuilder {
 	return ab
 }
 
-// AuthPlugin set a auth filter plugin
+// AuthPlugin set auth filter plugin
 func (ab *APIBuilder) AuthPlugin(name string) *APIBuilder {
 	ab.value.AuthFilter = name
 	return ab
@@ -91,13 +91,13 @@ func (ab *APIBuilder) MatchDomain(domain string) *APIBuilder {
 	return ab
 }
 
-// UP up this api
+// UP this api
 func (ab *APIBuilder) UP() *APIBuilder {
 	ab.value.Status = metapb.Up
 	return ab
 }
 
-// Down down this api
+// Down this api
 func (ab *APIBuilder) Down() *APIBuilder {
 	ab.value.Status = metapb.Down
 	return ab
@@ -151,7 +151,7 @@ func (ab *APIBuilder) AddDefaultValueCookie(name, value string) *APIBuilder {
 	return ab
 }
 
-// NoWhitelist set no whiltelist
+// NoWhitelist set no whitelist
 func (ab *APIBuilder) NoWhitelist() *APIBuilder {
 	if ab.value.IPAccessControl == nil {
 		return ab
@@ -376,7 +376,7 @@ func (ab *APIBuilder) AddDispatchNodeDefaultValueHeaderWithIndex(cluster uint64,
 			ClusterID: cluster,
 			DefaultValue: &metapb.HTTPResult{
 				Headers: []*metapb.PairValue{
-					&metapb.PairValue{
+					{
 						Name:  name,
 						Value: value,
 					},
@@ -387,7 +387,7 @@ func (ab *APIBuilder) AddDispatchNodeDefaultValueHeaderWithIndex(cluster uint64,
 		if node.DefaultValue == nil {
 			node.DefaultValue = &metapb.HTTPResult{
 				Headers: []*metapb.PairValue{
-					&metapb.PairValue{
+					{
 						Name:  name,
 						Value: value,
 					},
@@ -417,7 +417,7 @@ func (ab *APIBuilder) AddDispatchNodeDefaultValueCookieWithIndex(cluster uint64,
 			ClusterID: cluster,
 			DefaultValue: &metapb.HTTPResult{
 				Cookies: []*metapb.PairValue{
-					&metapb.PairValue{
+					{
 						Name:  name,
 						Value: value,
 					},
@@ -428,7 +428,7 @@ func (ab *APIBuilder) AddDispatchNodeDefaultValueCookieWithIndex(cluster uint64,
 		if node.DefaultValue == nil {
 			node.DefaultValue = &metapb.HTTPResult{
 				Cookies: []*metapb.PairValue{
-					&metapb.PairValue{
+					{
 						Name:  name,
 						Value: value,
 					},
@@ -706,7 +706,7 @@ func (ab *APIBuilder) Commit() (uint64, error) {
 	return ab.c.putAPI(ab.value)
 }
 
-// Build build
+// Build api
 func (ab *APIBuilder) Build() (*rpcpb.PutAPIReq, error) {
 	err := pb.ValidateAPI(&ab.value)
 	if err != nil {

@@ -79,8 +79,8 @@ func (c *runOnFirstRead) Read(bs []byte) (int, error) {
 }
 
 func copyRequest(req *fasthttp.Request) *fasthttp.Request {
-	newreq := fasthttp.AcquireRequest()
-	newreq.Reset()
-	req.CopyTo(newreq)
-	return newreq
+	dstReq := fasthttp.AcquireRequest()
+	dstReq.Reset()
+	req.CopyTo(dstReq)
+	return dstReq
 }

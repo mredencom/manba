@@ -45,7 +45,7 @@ type Cfg struct {
 	AddrPPROF         string
 	Namespace         string
 	TTLProxy          int64
-	Filers            []*FilterSpec
+	Filters           []*FilterSpec
 
 	Option *Option
 	Metric *util.MetricCfg
@@ -53,7 +53,7 @@ type Cfg struct {
 
 // AddFilter add a filter
 func (c *Cfg) AddFilter(filter *FilterSpec) {
-	c.Filers = append(c.Filers, filter)
+	c.Filters = append(c.Filters, filter)
 }
 
 // FilterSpec filter spec

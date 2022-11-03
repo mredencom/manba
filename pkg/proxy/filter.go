@@ -127,7 +127,7 @@ func (c *proxyContext) OriginRequest() *fasthttp.RequestCtx {
 }
 
 func (c *proxyContext) Analysis() *util.Analysis {
-	return c.rt.analysiser
+	return c.rt.analysis
 }
 
 func (c *proxyContext) setEndAt(endAt time.Time) {
