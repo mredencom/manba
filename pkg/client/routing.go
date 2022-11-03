@@ -20,7 +20,7 @@ func (c *client) NewRoutingBuilder() *RoutingBuilder {
 	}
 }
 
-// Use use a cluster
+// Use a router
 func (rb *RoutingBuilder) Use(value metapb.Routing) *RoutingBuilder {
 	rb.value = value
 	return rb
@@ -54,13 +54,13 @@ func (rb *RoutingBuilder) Strategy(strategy metapb.RoutingStrategy) *RoutingBuil
 	return rb
 }
 
-// Up up this routing
+// Up this routing
 func (rb *RoutingBuilder) Up() *RoutingBuilder {
 	rb.value.Status = metapb.Up
 	return rb
 }
 
-// Down down this routing
+// Down this routing
 func (rb *RoutingBuilder) Down() *RoutingBuilder {
 	rb.value.Status = metapb.Down
 	return rb
@@ -88,7 +88,7 @@ func (rb *RoutingBuilder) Commit() (uint64, error) {
 	return rb.c.putRouting(rb.value)
 }
 
-// Build build
+// Build a router
 func (rb *RoutingBuilder) Build() (*rpcpb.PutRoutingReq, error) {
 	err := pb.ValidateRouting(&rb.value)
 	if err != nil {

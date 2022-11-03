@@ -152,7 +152,7 @@ func (sb *ServerBuilder) Commit() (uint64, error) {
 	return sb.c.putServer(sb.value)
 }
 
-// Build build
+// Build this server
 func (sb *ServerBuilder) Build() (*rpcpb.PutServerReq, error) {
 	err := pb.ValidateServer(&sb.value)
 	if err != nil {
