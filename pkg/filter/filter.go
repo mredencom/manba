@@ -1,13 +1,12 @@
 package filter
 
 import (
+	"github.com/fagongzi/log"
 	"net/http"
 	"time"
 
 	"github.com/fagongzi/gateway/pkg/pb/metapb"
-	"github.com/fagongzi/gateway/pkg/proxy"
 	"github.com/fagongzi/gateway/pkg/util"
-	"github.com/fagongzi/log"
 	"github.com/valyala/fasthttp"
 )
 
@@ -41,12 +40,6 @@ type Filter interface {
 
 // BaseFilter base filter support default implementation
 type BaseFilter struct{}
-
-// Name filter
-func (f BaseFilter) Name() string {
-	log.Infof("execute baseFilter Init function %s", proxy.FilterBase)
-	return proxy.FilterBase
-}
 
 // Init init filter
 func (f BaseFilter) Init(cfg string) error {
