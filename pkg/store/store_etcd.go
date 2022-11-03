@@ -22,7 +22,7 @@ import (
 
 var (
 	// ErrHasBind error has bind into, can not delete
-	ErrHasBind = errors.New("Has bind info, can not delete")
+	ErrHasBind = errors.New("has bind info, can not delete")
 	// ErrStaleOP is a stale error
 	ErrStaleOP = errors.New("stale option")
 )

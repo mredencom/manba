@@ -53,12 +53,12 @@ enum RuleType {
 
 enum CMP {
     CMPEQ    = 0;
-	CMPLT    = 1;
-	CMPLE    = 2;
-	CMPGT    = 3;
-	CMPGE    = 4;
-	CMPIn    = 5;
-	CMPMatch = 6;
+    CMPLT    = 1;
+    CMPLE    = 2;
+    CMPGT    = 3;
+    CMPGE    = 4;
+    CMPIn    = 5;
+    CMPMatch = 6;
 }
 
 enum RoutingStrategy {
