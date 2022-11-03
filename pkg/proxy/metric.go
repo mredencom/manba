@@ -57,7 +57,7 @@ func (p *Proxy) postRequest(api *apiRuntime, dispatches []*dispatchNode, startAt
 			doMetrics = false
 		}
 
-		releaseDispathNode(dn)
+		releaseDispatchNode(dn)
 	}
 
 	if doMetrics {

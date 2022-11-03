@@ -12,7 +12,7 @@ import (
 	"github.com/fagongzi/util/protoc"
 )
 
-// Watch watch event from etcd
+// Watch event from etcd
 func (e *EtcdStore) Watch(evtCh chan *Evt, stopCh chan bool) error {
 	e.evtCh = evtCh
 

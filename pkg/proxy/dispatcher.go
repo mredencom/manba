@@ -207,6 +207,7 @@ type dispatcher struct {
 }
 
 func newDispatcher(cnf *Cfg, db store.Store, runner *task.Runner, jsEngineFunc func(*plugin.Engine)) *dispatcher {
+
 	tw := goetty.NewTimeoutWheel(goetty.WithTickInterval(time.Second))
 	rt := &dispatcher{
 		cnf:          cnf,
@@ -259,7 +260,7 @@ func (r *dispatcher) dispatch(reqCtx *fasthttp.RequestCtx, requestTag string) (*
 			targetAPI.meta.Name)
 	} else {
 		for idx, node := range targetAPI.nodes {
-			dn := acquireDispathNode()
+			dn := acquireDispatchNode()
 			dn.idx = idx
 			dn.api = targetAPI
 			dn.node = node

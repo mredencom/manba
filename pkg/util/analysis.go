@@ -274,7 +274,7 @@ func (a *Analysis) Request(key uint64) {
 	}
 }
 
-// Response incr successed count
+// Response incr success count
 func (a *Analysis) Response(key uint64, cost int64) {
 	if v, ok := a.points.Load(key); ok {
 		p := v.(*point)

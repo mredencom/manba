@@ -101,7 +101,7 @@ func getEtcdStoreFrom(addr, prefix string, basicAuth BasicAuth) (Store, error) {
 	return NewEtcdStore(addrs, prefix, basicAuth)
 }
 
-// Store store interface
+// Store interface
 type Store interface {
 	Raw() interface{}
 

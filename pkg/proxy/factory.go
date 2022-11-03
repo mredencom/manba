@@ -14,14 +14,16 @@ var (
 )
 
 const (
+	// FilterBase base filter
+	FilterBase = "Base"
 	// FilterPrepare prepare filter
 	FilterPrepare = "PREPARE"
 	// FilterHTTPAccess access log filter
 	FilterHTTPAccess = "HTTP-ACCESS"
 	// FilterHeader header filter
-	FilterHeader = "HEADER" // process header fiter
-	// FilterXForward xforward fiter
-	FilterXForward = "XFORWARD"
+	FilterHeader = "HEADER" // process header filter
+	// FilterXForward x-forward filter
+	FilterXForward = "X-FORWARD"
 	// FilterBlackList blacklist filter
 	FilterBlackList = "BLACKLIST"
 	// FilterWhiteList whitelist filter

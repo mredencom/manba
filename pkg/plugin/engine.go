@@ -33,7 +33,7 @@ func (eng *Engine) LastActive() time.Time {
 	return eng.lastActive
 }
 
-// Destroy destory all applied plugins
+// Destroy all applied plugins
 func (eng *Engine) Destroy() {
 	for _, rt := range eng.applied {
 		rt.destroy()

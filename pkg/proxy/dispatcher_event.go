@@ -31,26 +31,26 @@ func (r *dispatcher) watch() {
 func (r *dispatcher) readyToReceiveWatchEvent() {
 	for {
 		evt := <-r.watchEventC
-
-		if evt.Src == store.EventSrcCluster {
+		switch evt.Src {
+		case store.EventSrcCluster:
 			r.doClusterEvent(evt)
-		} else if evt.Src == store.EventSrcServer {
+		case store.EventSrcServer:
 			r.doServerEvent(evt)
-		} else if evt.Src == store.EventSrcBind {
+		case store.EventSrcBind:
 			r.doBindEvent(evt)
-		} else if evt.Src == store.EventSrcAPI {
+		case store.EventSrcAPI:
 			r.doAPIEvent(evt)
-		} else if evt.Src == store.EventSrcRouting {
+		case store.EventSrcRouting:
 			r.doRoutingEvent(evt)
-		} else if evt.Src == store.EventSrcProxy {
+		case store.EventSrcProxy:
 			r.doProxyEvent(evt)
-		} else if evt.Src == store.EventSrcPlugin {
+		case store.EventSrcPlugin:
 			r.doPluginEvent(evt)
-		} else if evt.Src == store.EventSrcApplyPlugin {
+		case store.EventSrcApplyPlugin:
 			r.doApplyPluginEvent(evt)
-		} else if evt.Src == eventSrcStatusChanged {
+		case eventSrcStatusChanged:
 			r.doStatusChangedEvent(evt)
-		} else {
+		default:
 			log.Warnf("unknown event <%+v>", evt)
 		}
 	}
@@ -58,93 +58,116 @@ func (r *dispatcher) readyToReceiveWatchEvent() {
 
 func (r *dispatcher) doRoutingEvent(evt *store.Evt) {
 	routing, _ := evt.Value.(*metapb.Routing)
-
-	if evt.Type == store.EventTypeNew {
+	switch evt.Type {
+	case store.EventTypeNew:
 		r.addRouting(routing)
-	} else if evt.Type == store.EventTypeDelete {
+	case store.EventTypeDelete:
 		r.removeRouting(format.MustParseStrUInt64(evt.Key))
-	} else if evt.Type == store.EventTypeUpdate {
+	case store.EventTypeUpdate:
 		r.updateRouting(routing)
+	default:
+		log.Warnf("unknown routing event <%+v>", evt)
 	}
 }
 
 func (r *dispatcher) doProxyEvent(evt *store.Evt) {
 	proxy, _ := evt.Value.(*metapb.Proxy)
-
-	if evt.Type == store.EventTypeNew {
+	switch evt.Type {
+	case store.EventTypeNew:
 		r.addProxy(proxy)
-	} else if evt.Type == store.EventTypeDelete {
+	case store.EventTypeDelete:
 		r.removeProxy(evt.Key)
+	default:
+		log.Warnf("unknown proxy event <%+v>", evt)
+
 	}
 }
 
 func (r *dispatcher) doAPIEvent(evt *store.Evt) {
 	api, _ := evt.Value.(*metapb.API)
 
-	if evt.Type == store.EventTypeNew {
+	switch evt.Type {
+	case store.EventTypeNew:
 		r.addAPI(api)
-	} else if evt.Type == store.EventTypeDelete {
+	case store.EventTypeDelete:
 		r.removeAPI(format.MustParseStrUInt64(evt.Key))
-	} else if evt.Type == store.EventTypeUpdate {
+	case store.EventTypeUpdate:
 		r.updateAPI(api)
+	default:
+		log.Warnf("unknown API event <%+v>", evt)
 	}
 }
 
 func (r *dispatcher) doClusterEvent(evt *store.Evt) {
 	cluster, _ := evt.Value.(*metapb.Cluster)
 
-	if evt.Type == store.EventTypeNew {
+	switch evt.Type {
+	case store.EventTypeNew:
 		r.addCluster(cluster)
-	} else if evt.Type == store.EventTypeDelete {
+	case store.EventTypeDelete:
 		r.removeCluster(format.MustParseStrUInt64(evt.Key))
-	} else if evt.Type == store.EventTypeUpdate {
+	case store.EventTypeUpdate:
 		r.updateCluster(cluster)
+	default:
+		log.Warnf("unknown cluster event <%+v>", evt)
 	}
 }
 
 func (r *dispatcher) doServerEvent(evt *store.Evt) {
 	svr, _ := evt.Value.(*metapb.Server)
 
-	if evt.Type == store.EventTypeNew {
+	switch evt.Type {
+	case store.EventTypeNew:
 		r.addServer(svr)
-	} else if evt.Type == store.EventTypeDelete {
+	case store.EventTypeDelete:
 		r.removeServer(format.MustParseStrUInt64(evt.Key))
-	} else if evt.Type == store.EventTypeUpdate {
+	case store.EventTypeUpdate:
 		r.updateServer(svr)
+	default:
+		log.Warnf("unknown server event <%+v>", evt)
 	}
 }
 
 func (r *dispatcher) doBindEvent(evt *store.Evt) {
 	bind, _ := evt.Value.(*metapb.Bind)
 
-	if evt.Type == store.EventTypeNew {
+	switch evt.Type {
+	case store.EventTypeNew:
 		r.addBind(bind)
-	} else if evt.Type == store.EventTypeDelete {
+	case store.EventTypeDelete:
 		r.removeBind(bind)
+	default:
+		log.Warnf("unknown bind event <%+v>", evt)
 	}
 }
 
 func (r *dispatcher) doPluginEvent(evt *store.Evt) {
 	value, _ := evt.Value.(*metapb.Plugin)
 
-	if evt.Type == store.EventTypeNew {
+	switch evt.Type {
+	case store.EventTypeNew:
 		r.addPlugin(value)
-	} else if evt.Type == store.EventTypeDelete {
+	case store.EventTypeDelete:
 		r.removePlugin(format.MustParseStrUInt64(evt.Key))
-	} else if evt.Type == store.EventTypeUpdate {
+	case store.EventTypeUpdate:
 		r.updatePlugin(value)
+	default:
+		log.Warnf("unknown plugin event <%+v>", evt)
 	}
 }
 
 func (r *dispatcher) doApplyPluginEvent(evt *store.Evt) {
 	value, _ := evt.Value.(*metapb.AppliedPlugins)
 
-	if evt.Type == store.EventTypeNew {
+	switch evt.Type {
+	case store.EventTypeNew:
 		r.updateAppliedPlugin(value)
-	} else if evt.Type == store.EventTypeDelete {
+	case store.EventTypeDelete:
 		r.removeAppliedPlugin()
-	} else if evt.Type == store.EventTypeUpdate {
+	case store.EventTypeUpdate:
 		r.updateAppliedPlugin(value)
+	default:
+		log.Warnf("unknown applyPlugin event <%+v>", evt)
 	}
 }
 
