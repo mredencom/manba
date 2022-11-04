@@ -8,7 +8,6 @@ go:
   - 1.13
 
 script:
-  - go mod vendor -v
   - go build  ./...
 
 env:
