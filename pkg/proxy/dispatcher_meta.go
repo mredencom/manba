@@ -11,20 +11,20 @@ import (
 )
 
 var (
-	errServerExists    = errors.New("Server already exist")
-	errClusterExists   = errors.New("Cluster already exist")
-	errBindExists      = errors.New("Bind already exist")
+	errServerExists    = errors.New("server already exist")
+	errClusterExists   = errors.New("cluster already exist")
+	errBindExists      = errors.New("bind already exist")
 	errAPIExists       = errors.New("API already exist")
-	errProxyExists     = errors.New("Proxy already exist")
-	errPluginExists    = errors.New("Plugin already exist")
-	errRoutingExists   = errors.New("Routing already exist")
-	errServerNotFound  = errors.New("Server not found")
-	errClusterNotFound = errors.New("Cluster not found")
-	errBindNotFound    = errors.New("Bind not found")
-	errProxyNotFound   = errors.New("Proxy not found")
+	errProxyExists     = errors.New("proxy already exist")
+	errPluginExists    = errors.New("plugin already exist")
+	errRoutingExists   = errors.New("routing already exist")
+	errServerNotFound  = errors.New("server not found")
+	errClusterNotFound = errors.New("cluster not found")
+	errBindNotFound    = errors.New("bind not found")
+	errProxyNotFound   = errors.New("proxy not found")
 	errAPINotFound     = errors.New("API not found")
-	errRoutingNotFound = errors.New("Routing not found")
-	errPluginNotFound  = errors.New("Plugin not found")
+	errRoutingNotFound = errors.New("routing not found")
+	errPluginNotFound  = errors.New("plugin not found")
 
 	limit = int64(32)
 )
@@ -219,7 +219,7 @@ func (r *dispatcher) addProxy(meta *metapb.Proxy) error {
 	r.proxies[key] = meta
 	r.refreshAllQPS()
 
-	log.Infof("proxy <%s> added", key)
+	log.Infof("proxy key <%s> added", key)
 	return nil
 }
 
@@ -624,7 +624,7 @@ func (r *dispatcher) maybeUpdateJSEngine(id uint64) error {
 }
 
 func (r *dispatcher) updateJSEngine() error {
-	
+
 	var plugins []*metapb.Plugin
 	newEngine := plugin.NewEngine(r.cnf.Option.EnableJSPlugin, FilterJSPlugin)
 	for _, id := range r.appliedPlugins.AppliedIDs {

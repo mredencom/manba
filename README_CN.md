@@ -82,8 +82,6 @@ Routing是一个路由策略，根据HTTP Request中的Cookie，Querystring、He
 ## 参与开发
 [更多](./docs-cn/build.md)
 
-## 交流方式-微信
-![](./images/qr.jpg)
 
 [1]: https://docs.docker.com/ "Docker Documentation"
 [2]: https://github.com/yeasy/docker_practice "docker_practice"

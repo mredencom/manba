@@ -85,7 +85,7 @@ func (item *routeItem) matches(n node) bool {
 	return false
 }
 
-// Route route for api match
+// Route for api match
 // url define: /conststring/(number|string|enum:m1|m2|m3)[:argname]
 type Route struct {
 	root *routeItem
@@ -102,7 +102,7 @@ func NewRoute() *Route {
 	}
 }
 
-// Add add a url to this route
+// Add url to this route
 func (r *Route) Add(api *metapb.API) error {
 	p := newParser(hack.StringToSlice(api.URLPattern))
 	nodes, err := p.parse()
@@ -162,7 +162,7 @@ func (r *Route) Add(api *metapb.API) error {
 	return nil
 }
 
-// Find find matched api for url
+// Find matched api for url
 func (r *Route) Find(url []byte, method string, paramsFunc func(name, value []byte)) (uint64, bool) {
 	p := newParser(url)
 	nodes, err := p.parse()

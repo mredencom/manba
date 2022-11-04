@@ -30,7 +30,7 @@ type copyReq struct {
 
 func (req *copyReq) prepare() {
 	if req.needRewrite() {
-		// if not use rewrite, it only change uri path and query string
+		// if not use rewrite, it only changes uri path and query string
 		realPath := req.rewriteURL()
 		if "" != realPath {
 			req.origin.SetRequestURI(realPath)

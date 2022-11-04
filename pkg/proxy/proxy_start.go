@@ -13,23 +13,24 @@ import (
 
 // Start proxy
 func (p *Proxy) Start() {
+
 	go p.listenToStop()
 
 	p.startMetrics()
 	p.startReadyTasks()
 
-	if !p.cfg.Option.EnableWebSocket {
-		go p.startHTTPS()
-		p.startHTTP()
-
+	if p.cfg.Option.EnableWebSocket {
+		go p.startHTTPSCMUX()
+		p.startHTTPCMUX()
 		return
 	}
 
-	go p.startHTTPSCMUX()
-	p.startHTTPCMUX()
+	go p.startHTTPS()
+	p.startHTTP()
+
 }
 
-// Stop stop the proxy
+// Stop the proxy
 func (p *Proxy) Stop() {
 	log.Infof("stop: start to stop gateway proxy")
 
@@ -87,8 +88,7 @@ func (p *Proxy) newHTTPServer() *fasthttp.Server {
 
 func (p *Proxy) startHTTP() {
 	log.Infof("start http at %s", p.cfg.Addr)
-	s := p.newHTTPServer()
-	err := s.ListenAndServe(p.cfg.Addr)
+	err := p.newHTTPServer().ListenAndServe(p.cfg.Addr)
 	if err != nil {
 		log.Fatalf("start http listeners failed with %+v", err)
 	}
@@ -96,8 +96,7 @@ func (p *Proxy) startHTTP() {
 
 func (p *Proxy) startHTTPWithListener(l net.Listener) {
 	log.Infof("start http at %s", p.cfg.Addr)
-	s := p.newHTTPServer()
-	err := s.Serve(l)
+	err := p.newHTTPServer().Serve(l)
 	if err != nil {
 		log.Fatalf("start http listeners failed with %+v", err)
 	}

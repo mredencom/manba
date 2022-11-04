@@ -37,23 +37,23 @@ func (scan *scanner) Next() byte {
 func (scan *scanner) NextToken() {
 	for {
 		switch scan.ch {
-		case '/':
+		case slash:
 			scan.token = tokenSlash
 			scan.Next()
 			return
-		case '(':
+		case lParen:
 			scan.token = tokenLParen
 			scan.Next()
 			return
-		case '|':
+		case vertical:
 			scan.token = tokenVertical
 			scan.Next()
 			return
-		case ':':
+		case colon:
 			scan.token = tokenColon
 			scan.Next()
 			return
-		case ')':
+		case rParen:
 			scan.token = tokenRParen
 			scan.Next()
 			return

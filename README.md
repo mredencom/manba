@@ -113,8 +113,7 @@ Routing is a route strategy. Cookie, Querystring, Header and Path in HTTP Reques
 ## Getting Involved
 [More](./docs/build.md)
 
-## WeChat
-![](./images/qr.jpg)
+
 
 [1]: https://docs.docker.com/ "Docker Documentation"
 [2]: https://github.com/yeasy/docker_practice "docker_practice"

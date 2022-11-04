@@ -19,7 +19,7 @@ func ValidateRouting(value *metapb.Routing) error {
 		return fmt.Errorf("missing cluster")
 	}
 
-	if value.Name == "" {
+	if len(value.Name) == 0 {
 		return fmt.Errorf("missing name")
 	}
 
@@ -32,7 +32,7 @@ func ValidateRouting(value *metapb.Routing) error {
 
 // ValidateCluster validate cluster
 func ValidateCluster(value *metapb.Cluster) error {
-	if value.Name == "" {
+	if len(value.Name) == 0 {
 		return fmt.Errorf("missing name")
 	}
 
@@ -41,7 +41,7 @@ func ValidateCluster(value *metapb.Cluster) error {
 
 // ValidateServer validate server
 func ValidateServer(value *metapb.Server) error {
-	if value.Addr == "" {
+	if len(value.Addr) == 0 {
 		return fmt.Errorf("missing server address")
 	}
 
@@ -54,16 +54,16 @@ func ValidateServer(value *metapb.Server) error {
 
 // ValidateAPI validate api
 func ValidateAPI(value *metapb.API) error {
-	if value.Name == "" {
+	if len(value.Name) == 0 {
 		return fmt.Errorf("missing api name")
 	}
 
-	if value.URLPattern == "" {
+	if len(value.URLPattern) == 0 {
 		return fmt.Errorf("missing URLPattern")
 	}
 
 	for _, n := range value.Nodes {
-		if n.URLRewrite != "" {
+		if len(n.URLRewrite) != 0 {
 			_, err := expr.Parse([]byte(n.URLRewrite))
 			if err != nil {
 				return err
@@ -87,7 +87,7 @@ func ValidateAPI(value *metapb.API) error {
 
 // ValidatePlugin validate plugin
 func ValidatePlugin(value *metapb.Plugin) error {
-	if value.Name == "" {
+	if len(value.Name) == 0 {
 		return fmt.Errorf("missing plugin name")
 	}
 

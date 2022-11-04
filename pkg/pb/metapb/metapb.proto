@@ -1,4 +1,4 @@
-syntax = "proto2";
+syntax = "proto3";
 package metapb;
 
 import "gogoproto/gogo.proto";
@@ -108,9 +108,9 @@ message HeathCheck {
 message CircuitBreaker {
     optional int64 closeTimeout       = 1 [(gogoproto.nullable) = false];
     optional int32 halfTrafficRate    = 2 [(gogoproto.nullable) = false];
-	optional int64 rateCheckPeriod    = 3 [(gogoproto.nullable) = false];
-	optional int32 failureRateToClose = 4 [(gogoproto.nullable) = false];
-	optional int32 succeedRateToOpen  = 5 [(gogoproto.nullable) = false];
+    optional int64 rateCheckPeriod    = 3 [(gogoproto.nullable) = false];
+    optional int32 failureRateToClose = 4 [(gogoproto.nullable) = false];
+    optional int32 succeedRateToOpen  = 5 [(gogoproto.nullable) = false];
 }
 
 // Server is a backend server that provide api

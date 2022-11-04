@@ -16,15 +16,13 @@ import (
 const (
 	websocketRspKey = "__ws_rsp"
 )
+
 var wsHeaders = map[string]bool{
 	"Origin":                   true,
 	"Sec-WebSocket-Protocol":   true,
-	"Sec-Websocket-Protocol":   true,
 	"Cookie":                   true,
 	"Sec-WebSocket-Version":    true,
-	"Sec-Websocket-Version":    true,
 	"Sec-WebSocket-Key":        true,
-	"Sec-Websocket-Key":        true,
 	"Sec-Websocket-Extensions": true,
 	"Connection":               true,
 	"Upgrade":                  true,
@@ -32,6 +30,7 @@ var wsHeaders = map[string]bool{
 	"Sec-WebSocket-Extensions": true,
 	"Sec-WebSocket-Accept":     true,
 }
+
 // ServeHTTP  http reverse handler by http
 func (p *Proxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	if p.isStopped() {
