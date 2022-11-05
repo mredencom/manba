@@ -14,19 +14,19 @@ import (
 )
 
 const (
-	// PluginConstructor every plugin needs a constructor
-	PluginConstructor = "NewPlugin"
-	// PluginPre filter pre method
-	PluginPre = "pre"
-	// PluginPost filter post method
-	PluginPost = "post"
-	// PluginPostErr filter post error method
-	PluginPostErr = "postErr"
+	// ConstructorPlugin every plugin needs a constructor
+	ConstructorPlugin = "NewPlugin"
+	// PrePlugin filter pre method
+	PrePlugin = "pre"
+	// PostPlugin filter post method
+	PostPlugin = "post"
+	// PostErrPlugin filter post error method
+	PostErrPlugin = "postErr"
 
-	// PluginReturnCodeFieldName code field name in return json object
-	PluginReturnCodeFieldName = "code"
-	// PluginReturnErrorFieldName error field name in return json object
-	PluginReturnErrorFieldName = "error"
+	// ReturnCodeFieldNamePlugin code field name in return json object
+	ReturnCodeFieldNamePlugin = "code"
+	// ReturnErrorFieldNamePlugin error field name in return json object
+	ReturnErrorFieldNamePlugin = "error"
 )
 
 // Runtime plugin runtime
@@ -58,7 +58,7 @@ func NewRuntime(meta *metapb.Plugin) (*Runtime, error) {
 	}
 
 	// exec constructor
-	plugin, err := vm.Get(PluginConstructor)
+	plugin, err := vm.Get(ConstructorPlugin)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +75,7 @@ func NewRuntime(meta *metapb.Plugin) (*Runtime, error) {
 	}
 
 	// fetch plugin methods
-	preFunc, err := this.Object().Get(PluginPre)
+	preFunc, err := this.Object().Get(PrePlugin)
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func NewRuntime(meta *metapb.Plugin) (*Runtime, error) {
 		return nil, fmt.Errorf("pre must function")
 	}
 
-	postFunc, err := this.Object().Get(PluginPost)
+	postFunc, err := this.Object().Get(PostPlugin)
 	if err != nil {
 		return nil, err
 	}
@@ -91,7 +91,7 @@ func NewRuntime(meta *metapb.Plugin) (*Runtime, error) {
 		return nil, fmt.Errorf("post must function")
 	}
 
-	postErrFunc, err := this.Object().Get(PluginPostErr)
+	postErrFunc, err := this.Object().Get(PostErrPlugin)
 	if err != nil {
 		return nil, err
 	}
@@ -204,7 +204,7 @@ func (rt *Runtime) PostErr(c *Ctx, code int, err error) {
 }
 
 func parsePluginReturn(value *otto.Object) (int, error) {
-	code, err := value.Get(PluginReturnCodeFieldName)
+	code, err := value.Get(ReturnCodeFieldNamePlugin)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -216,7 +216,7 @@ func parsePluginReturn(value *otto.Object) (int, error) {
 		return http.StatusInternalServerError, err
 	}
 
-	e, err := value.Get(PluginReturnErrorFieldName)
+	e, err := value.Get(ReturnErrorFieldNamePlugin)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}

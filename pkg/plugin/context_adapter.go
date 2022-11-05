@@ -14,11 +14,11 @@ var (
 )
 
 func acquireContext() *Ctx {
+
 	v := contextPool.Get()
 	if v == nil {
 		return &Ctx{}
 	}
-
 	return v.(*Ctx)
 }
 
