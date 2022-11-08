@@ -10,83 +10,8 @@ import (
 	"github.com/fagongzi/util/hack"
 )
 
-type routeItem struct {
-	node     node
-	children []*routeItem
-	apis     map[string]uint64
-}
-
-func (item *routeItem) addChildren(id uint64, method string, nodes ...node) {
-	parent := item
-
-	for _, n := range nodes {
-		p := &routeItem{
-			node: n,
-		}
-		parent.children = append(parent.children, p)
-		sort.Slice(parent.children, func(i, j int) bool {
-			return parent.children[i].node.nt < parent.children[j].node.nt
-		})
-		parent = p
-	}
-
-	if parent.apis == nil {
-		parent.apis = make(map[string]uint64, 4)
-	}
-
-	parent.apis[method] = id
-}
-
-func (item *routeItem) urlMatches(n node, matchAllParam *bytes.Buffer) bool {
-	switch item.node.nt {
-	case slashType:
-		return n.nt == slashType
-	case numberType:
-		return n.isNumberValue()
-	case enumType:
-		return item.node.inEnumValue(n.value)
-	case constType:
-		if item.node.isMatchAllConstString() {
-			matchAllParam.WriteByte('/')
-			matchAllParam.Write(n.value)
-			return true
-		}
-
-		return bytes.Compare(item.node.value, n.value) == 0
-	case stringType:
-		return true
-	default:
-		log.Fatalf("bug: error node type %d", item.node.nt)
-	}
-
-	return false
-}
-
-func (item *routeItem) matches(n node) bool {
-	if item.node.nt != n.nt {
-		return false
-	}
-
-	switch item.node.nt {
-	case slashType:
-		return true
-	case numberType:
-		return true
-	case stringType:
-		return true
-	case constType:
-		return bytes.Compare(item.node.value, n.value) == 0
-	case enumType:
-		return true
-	default:
-		log.Fatalf("bug: error node type %d", item.node.nt)
-	}
-
-	return false
-}
-
 // Route for api match
-// url define: /conststring/(number|string|enum:m1|m2|m3)[:argname]
+// url define: /const/string/(number|string|enum:m1|m2|m3)[:args]
 type Route struct {
 	root *routeItem
 }
@@ -234,4 +159,79 @@ func removeSlash(nodes ...node) []node {
 	}
 
 	return value
+}
+
+type routeItem struct {
+	node     node
+	children []*routeItem
+	apis     map[string]uint64
+}
+
+func (item *routeItem) addChildren(id uint64, method string, nodes ...node) {
+	parent := item
+
+	for _, n := range nodes {
+		p := &routeItem{
+			node: n,
+		}
+		parent.children = append(parent.children, p)
+		sort.Slice(parent.children, func(i, j int) bool {
+			return parent.children[i].node.nt < parent.children[j].node.nt
+		})
+		parent = p
+	}
+
+	if parent.apis == nil {
+		parent.apis = make(map[string]uint64, 4)
+	}
+
+	parent.apis[method] = id
+}
+
+func (item *routeItem) urlMatches(n node, matchAllParam *bytes.Buffer) bool {
+	switch item.node.nt {
+	case slashType:
+		return n.nt == slashType
+	case numberType:
+		return n.isNumberValue()
+	case enumType:
+		return item.node.inEnumValue(n.value)
+	case constType:
+		if item.node.isMatchAllConstString() {
+			matchAllParam.WriteByte('/')
+			matchAllParam.Write(n.value)
+			return true
+		}
+
+		return bytes.Compare(item.node.value, n.value) == 0
+	case stringType:
+		return true
+	default:
+		log.Fatalf("bug: error node type %d", item.node.nt)
+	}
+
+	return false
+}
+
+func (item *routeItem) matches(n node) bool {
+	if item.node.nt != n.nt {
+		return false
+	}
+
+	switch item.node.nt {
+	case slashType:
+		return true
+	case numberType:
+		return true
+	case stringType:
+		return true
+	case constType:
+		return bytes.Compare(item.node.value, n.value) == 0
+	case enumType:
+		return true
+	default:
+		log.Fatalf("bug: error node type %d", item.node.nt)
+	}
+
+	return false
 }

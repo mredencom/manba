@@ -26,20 +26,22 @@ var (
 	dependP = regexp.MustCompile(`\$\w+\.\w+`)
 )
 
-type binds struct {
-	servers []*bindInfo
-	actives []metapb.Server
-}
+type (
+	binds struct {
+		servers []*bindInfo
+		actives []metapb.Server
+	}
 
-type bindInfo struct {
-	svrID  uint64
-	status metapb.Status
-}
+	bindInfo struct {
+		svrID  uint64
+		status metapb.Status
+	}
 
-type clusterRuntime struct {
-	meta *metapb.Cluster
-	lb   lb.LoadBalance
-}
+	clusterRuntime struct {
+		meta *metapb.Cluster
+		lb   lb.LoadBalance
+	}
+)
 
 func newClusterRuntime(meta *metapb.Cluster) *clusterRuntime {
 	return &clusterRuntime{
@@ -98,9 +100,7 @@ func (s *abstractSupportProtectedRuntime) circuitToClose() {
 
 func (s *abstractSupportProtectedRuntime) circuitToOpen() {
 	s.Lock()
-	if s.cb == nil ||
-		s.circuit == metapb.Open ||
-		s.circuit != metapb.Half {
+	if s.cb == nil || s.circuit == metapb.Open || s.circuit != metapb.Half {
 		s.Unlock()
 		return
 	}
@@ -185,10 +185,10 @@ func parseFrom(value string) *ipSegment {
 }
 
 func (ip *ipSegment) matches(value string) bool {
-	tmp := strings.Split(value, ".")
 
+	segment := strings.Split(value, ".")
 	for index, v := range ip.value {
-		if v != "*" && v != tmp[index] {
+		if v != "*" && v != segment[index] {
 			return false
 		}
 	}
@@ -196,22 +196,24 @@ func (ip *ipSegment) matches(value string) bool {
 	return true
 }
 
-type apiValidation struct {
-	meta  *metapb.Validation
-	rules []*apiRule
-}
+type (
+	apiValidation struct {
+		meta  *metapb.Validation
+		rules []*apiRule
+	}
 
-type apiRule struct {
-	pattern *regexp.Regexp
-}
+	apiRule struct {
+		pattern *regexp.Regexp
+	}
 
-type apiNode struct {
-	httpOption     util.HTTPOption
-	meta           *metapb.DispatchNode
-	validations    []*apiValidation
-	defaultCookies []*fasthttp.Cookie
-	parsedExprs    []expr.Expr
-}
+	apiNode struct {
+		httpOption     util.HTTPOption
+		meta           *metapb.DispatchNode
+		validations    []*apiValidation
+		defaultCookies []*fasthttp.Cookie
+		parsedExprs    []expr.Expr
+	}
+)
 
 func newAPINode(meta *metapb.DispatchNode) *apiNode {
 	rn := &apiNode{
@@ -279,26 +281,28 @@ func (n *apiNode) validate(req *fasthttp.Request) bool {
 	return true
 }
 
-type renderAttr struct {
-	meta     *metapb.RenderAttr
-	extracts [][]string
-}
+type (
+	renderAttr struct {
+		meta     *metapb.RenderAttr
+		extracts [][]string
+	}
 
-type renderObject struct {
-	meta  *metapb.RenderObject
-	attrs []*renderAttr
-}
+	renderObject struct {
+		meta  *metapb.RenderObject
+		attrs []*renderAttr
+	}
 
-type apiRuntime struct {
-	abstractSupportProtectedRuntime
+	apiRuntime struct {
+		abstractSupportProtectedRuntime
 
-	meta                *metapb.API
-	nodes               []*apiNode
-	defaultCookies      []*fasthttp.Cookie
-	parsedWhitelist     []*ipSegment
-	parsedBlacklist     []*ipSegment
-	parsedRenderObjects []*renderObject
-}
+		meta                *metapb.API
+		nodes               []*apiNode
+		defaultCookies      []*fasthttp.Cookie
+		parsedWhitelist     []*ipSegment
+		parsedBlacklist     []*ipSegment
+		parsedRenderObjects []*renderObject
+	}
+)
 
 func newAPIRuntime(meta *metapb.API, tw *goetty.TimeoutWheel, activeQPS int64) *apiRuntime {
 	ar := &apiRuntime{
@@ -557,7 +561,7 @@ func (a *routingRuntime) isUp() bool {
 
 func conditionsMatches(cond *metapb.Condition, req *fasthttp.Request) bool {
 	attrValue := paramValue(&cond.Parameter, req)
-	if attrValue == "" {
+	if len(attrValue) == 0 {
 		return false
 	}
 

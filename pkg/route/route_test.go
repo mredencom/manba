@@ -333,7 +333,7 @@ func TestFind(t *testing.T) {
 	}
 
 	params = make(map[string][]byte, 0)
-	id, _ = r.Find([]byte("/on/notmatches"), "GET", paramsFunc)
+	id, _ = r.Find([]byte("/on/notMatches"), "GET", paramsFunc)
 	if id != 0 {
 		t.Errorf("expect not matched , but %d", id)
 	}

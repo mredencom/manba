@@ -62,6 +62,7 @@ type parser struct {
 }
 
 func newParser(input []byte) *parser {
+
 	if len(input) > 1 && input[len(input)-1] == slash {
 		input = input[0 : len(input)-1]
 	}
@@ -80,7 +81,7 @@ func (p *parser) parse() ([]node, error) {
 		}}, nil
 	}
 
-	// /(number|string|enum:m1|m2|m3)[:argname]
+	// /(number|string|enum:m1|m2|m3)[:args]
 	prev := tokenUnknown
 	prevIndex := -1
 
@@ -136,11 +137,9 @@ func (p *parser) parse() ([]node, error) {
 			} else {
 				p.lexer.ScanString()
 			}
-
 			break
 		case tokenVertical:
 			prevNode := p.prevNode()
-
 			if (prev == tokenColon || prev == tokenVertical) &&
 				prevNode != nil &&
 				prevNode.isEnum() {
@@ -148,13 +147,11 @@ func (p *parser) parse() ([]node, error) {
 			} else {
 				return nil, fmt.Errorf("syntax error: missing : with enum type")
 			}
-
 			break
 		case tokenRParen:
 			if prev == tokenLParen {
 				var nt nodeType
 				value := p.lexer.ScanString()
-
 				if bytes.Equal(value, stringValue) {
 					nt = stringType
 				} else if bytes.Equal(value, numberValue) {
@@ -176,7 +173,6 @@ func (p *parser) parse() ([]node, error) {
 			} else {
 				return nil, fmt.Errorf("syntax error: missing (")
 			}
-
 			break
 		case tokenEOF:
 			if prev == tokenSlash {
@@ -193,7 +189,6 @@ func (p *parser) parse() ([]node, error) {
 			} else if prev == tokenUnknown {
 				return nil, fmt.Errorf("syntax error: must start with /")
 			}
-
 			return p.nodes, nil
 		}
 

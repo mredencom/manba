@@ -12,7 +12,7 @@ func TestNext(t *testing.T) {
 	if ch != '0' {
 		t.Errorf("ch expect 0 but %c", ch)
 	}
-
+	t.Logf("token  %d", s.Token())
 	s.Next()
 	ch = s.Current()
 	if ch != eoi {

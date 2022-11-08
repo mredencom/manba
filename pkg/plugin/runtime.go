@@ -15,6 +15,7 @@ import (
 
 const (
 	// ConstructorPlugin every plugin needs a constructor
+
 	ConstructorPlugin = "NewPlugin"
 	// PrePlugin filter pre method
 	PrePlugin = "pre"
