@@ -20,7 +20,7 @@ func NewHashIPBalance() LoadBalance {
 }
 
 // Select select a server from servers using HashIPBalance
-func (haship HashIPBalance) Select(ctx *fasthttp.RequestCtx, servers []metapb.Server) uint64 {
+func (hashIp HashIPBalance) Select(ctx *fasthttp.RequestCtx, servers []metapb.Server) uint64 {
 	l := len(servers)
 	if 0 >= l {
 		return 0

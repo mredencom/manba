@@ -13,7 +13,7 @@ type point struct {
 	requests          atomic.Int64
 	rejects           atomic.Int64
 	failure           atomic.Int64
-	successed         atomic.Int64
+	success           atomic.Int64
 	continuousFailure atomic.Int64
 
 	costs atomic.Int64
@@ -25,7 +25,7 @@ func (p *point) dump(target *point) {
 	target.requests.Set(p.requests.Get())
 	target.rejects.Set(p.rejects.Get())
 	target.failure.Set(p.failure.Get())
-	target.successed.Set(p.successed.Get())
+	target.success.Set(p.success.Get())
 	target.max.Set(p.max.Get())
 	target.min.Set(p.min.Get())
 	target.costs.Set(p.costs.Get())
@@ -43,20 +43,20 @@ type Analysis struct {
 
 // Recently recently point data
 type Recently struct {
-	key       uint64
-	timeout   goetty.Timeout
-	period    time.Duration
-	prev      *point
-	current   *point
-	dumpPrev  bool
-	qps       int
-	requests  int64
-	successed int64
-	failure   int64
-	rejects   int64
-	max       int64
-	min       int64
-	avg       int64
+	key      uint64
+	timeout  goetty.Timeout
+	period   time.Duration
+	prev     *point
+	current  *point
+	dumpPrev bool
+	qps      int
+	requests int64
+	success  int64
+	failure  int64
+	rejects  int64
+	max      int64
+	min      int64
+	avg      int64
 }
 
 func newRecently(key uint64, period time.Duration) *Recently {
@@ -199,7 +199,7 @@ func (a *Analysis) GetRecentlyRequestSuccessedRate(server uint64, interval time.
 		return 100
 	}
 
-	value := int(point.successed * 100 / (point.requests - point.rejects))
+	value := int(point.success * 100 / (point.requests - point.rejects))
 	return value
 }
 
@@ -225,7 +225,7 @@ func (a *Analysis) GetRecentlyRequestSuccessedCount(server uint64, interval time
 		return 0
 	}
 
-	value := int(point.successed)
+	value := int(point.success)
 	return value
 }
 
@@ -278,7 +278,7 @@ func (a *Analysis) Request(key uint64) {
 func (a *Analysis) Response(key uint64, cost int64) {
 	if v, ok := a.points.Load(key); ok {
 		p := v.(*point)
-		p.successed.Incr()
+		p.success.Incr()
 		p.costs.Add(cost)
 		p.continuousFailure.Set(0)
 
@@ -337,9 +337,9 @@ func (r *Recently) calc() {
 		r.requests = 0
 	}
 
-	r.successed = r.current.successed.Get() - r.prev.successed.Get()
-	if r.successed < 0 {
-		r.successed = 0
+	r.success = r.current.success.Get() - r.prev.success.Get()
+	if r.success < 0 {
+		r.success = 0
 	}
 
 	r.failure = r.current.failure.Get() - r.prev.failure.Get()
@@ -373,10 +373,10 @@ func (r *Recently) calc() {
 		r.avg = int64(costs / 1000 / 1000 / r.requests)
 	}
 
-	if r.successed > r.requests {
+	if r.success > r.requests {
 		r.qps = int(r.requests / int64(r.period/time.Second))
 	} else {
-		r.qps = int(r.successed / int64(r.period/time.Second))
+		r.qps = int(r.success / int64(r.period/time.Second))
 	}
 
 }

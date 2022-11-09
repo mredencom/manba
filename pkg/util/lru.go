@@ -16,7 +16,7 @@ type Cache struct {
 	MaxBytes uint64
 	current  uint64
 
-	// OnEvicted optionally specificies a callback function to be
+	// OnEvicted optionally specifies a callback function to be
 	// executed when an entry is purged from the cache.
 	OnEvicted func(key Key, value *goetty.ByteBuf)
 

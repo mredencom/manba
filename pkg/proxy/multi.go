@@ -37,6 +37,5 @@ func (c *multiContext) getAttr(paths ...string) string {
 		log.Errorf("extract %+v failed, errors:\n%+v", paths, err)
 		return ""
 	}
-
 	return hack.SliceToString(value)
 }
