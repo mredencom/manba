@@ -32,20 +32,16 @@ func (req *copyReq) prepare() {
 	if req.needRewrite() {
 		// if not use rewrite, it only changes uri path and query string
 		realPath := req.rewriteURL()
-		if "" != realPath {
+		if len(realPath) != 0 {
 			req.origin.SetRequestURI(realPath)
 			req.origin.SetHost(req.to.meta.Addr)
-
-			log.Infof("%s: dispatch node %d rewrite url to %s for copy",
-				req.requestTag,
-				req.idx,
-				realPath)
+			log.Infof("%s: dispatch node %d rewrite url to %s for copy", req.requestTag, req.idx, realPath)
 		}
 	}
 }
 
 func (req *copyReq) needRewrite() bool {
-	return req.node.meta.URLRewrite != ""
+	return len(req.node.meta.URLRewrite) != 0
 }
 
 func (req *copyReq) rewriteURL() string {
