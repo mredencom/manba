@@ -22,6 +22,11 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
+const (
+	charLeft  = byte('[')
+	charRight = byte(']')
+)
+
 var (
 	// MultiResultsContentType merge operation using content-type
 	MultiResultsContentType = "application/json; charset=utf-8"
@@ -31,15 +36,7 @@ var (
 		"Content-Type",
 		"Date",
 	}
-)
-
-var (
 	globalHTTPOptions *util.HTTPOption
-)
-
-const (
-	charLeft  = byte('[')
-	charRight = byte(']')
 )
 
 // Proxy Proxy
